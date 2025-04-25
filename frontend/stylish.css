@@ -1,0 +1,180 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+/* Header Section */
+header {
+  background-color: #4CAF50;
+  padding: 1rem;
+  color: white;
+  text-align: center;
+}
+
+header .header-content h1 {
+  margin: 0;
+}
+
+/* Main Content */
+main {
+  padding: 2rem;
+}
+
+/* Buttons */
+.btn-main {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  margin-right: 10px;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.btn-main:hover {
+  background-color: #45a049;
+}
+
+.btn-submit {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.btn-submit:hover {
+  background-color: #45a049;
+}
+
+/* Hidden Element */
+.hidden {
+  display: none;
+}
+
+/* Form Container */
+.form-container {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  margin: 20px auto;
+}
+
+.form-container label {
+  font-size: 1rem;
+  margin-bottom: 5px;
+  display: block;
+  font-weight: bold;
+}
+
+.form-container input,
+.form-container select,
+.form-container textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #aaa;
+}
+
+textarea {
+  resize: vertical; /* Allow vertical resizing */
+  min-height: 100px; /* Default height */
+}
+
+textarea:focus,
+input:focus {
+  border-color: #4CAF50;
+  outline: none;
+}
+
+/* Message Container */
+#message {
+  margin-top: 20px;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+#message.success {
+  background-color: #4CAF50;
+  color: white;
+}
+
+#message.error {
+  background-color: #f44336;
+  color: white;
+}
+
+/* Search Container */
+.search-container {
+  margin: 20px 0;
+  text-align: center;
+}
+
+.search-input {
+  padding: 10px;
+  width: 300px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.btn-search {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.btn-search:hover {
+  background-color: #45a049;
+}
+
+/* Record Display */
+.record {
+  background-color: white;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.record p {
+  margin: 5px 0;
+  line-height: 1.5;
+}
+
+/* Footer Section */
+footer {
+  background-color: #4CAF50;
+  padding: 10px;
+  color: white;
+  text-align: center;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+}

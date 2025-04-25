@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patient History</title>
+  <link rel="stylesheet" href="stylish.css">
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <h1>Patient Records History</h1>
+    </div>
+  </header>
+  <main>
+    <div id="searchContainer" class="search-container">
+      <input type="text" id="searchInput" placeholder="Search by patient name" class="search-input" />
+      <button id="searchButton" class="btn-search">Search</button>
+    </div>
+    
+    <!-- Go Back Button -->
+    <div class="go-back-container">
+      <a href="index.html">
+        <button class="btn-main">Go Back</button>
+      </a>
+    </div>
+
+    <div id="historyContainer" class="history-container"></div>
+  </main>
+  <footer>
+    <p>&copy; 2024 Electronic Health Records</p>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>

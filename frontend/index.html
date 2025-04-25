@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Electronic Health Records</title>
+  <link rel="stylesheet" href="stylish.css">
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <h1>Electronic Health Records System</h1>
+    </div>
+  </header>
+  <main>
+    <!-- Introduction Section -->
+    <section class="intro">
+      <button id="addPatientBtn" class="btn-main">Add Patient</button>
+      <a href="history.html" class="btn-main">Go to History</a>
+      <a href="new_registration.html" class="btn-main">New Registration</a>
+    </section>
+
+    <!-- Add Patient Form Section -->
+    <div id="formContainer" class="hidden">
+      <h2>Add Patient Record</h2>
+      <form id="patientForm" class="form-container">
+        <label for="phoneNumber">Phone Number:</label>
+        <input 
+          type="tel" 
+          id="phoneNumber" 
+          name="phoneNumber" 
+          pattern="[0-9]{10}" 
+          placeholder="Enter 10-digit phone number" 
+          required
+          aria-label="Enter 10-digit phone number"
+        >
+
+        <label for="condition">Condition:</label>
+        <textarea 
+          id="condition" 
+          name="condition" 
+          placeholder="Enter the patient's condition (up to 5-6 lines)" 
+          rows="6" 
+          required
+          aria-label="Enter patient's condition (multi-line)"
+        ></textarea>
+
+        <label for="uniqueId">Unique ID:</label>
+        <input 
+          type="text" 
+          id="uniqueId" 
+          name="uniqueId" 
+          placeholder="Enter Unique ID" 
+          required
+          aria-label="Enter unique ID"
+        >
+
+        <button type="submit" class="btn-submit">Save Record</button>
+      </form>
+    </div>
+
+    <!-- Message Container -->
+    
+  <!-- Footer Section -->
+  <footer>
+    <p>&copy; 2024 Electronic Health Records</p>
+  </footer>
+
+  <!-- JavaScript -->
+  <script src="app.js"></script>
+</body>
+</html>

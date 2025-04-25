@@ -1,0 +1,75 @@
+{
+  "_format": "hh-sol-cache-2",
+  "files": {
+    "C:\\Users\\akhil\\OneDrive\\Desktop\\today presentations\\health care monitoring\\backend\\contracts\\PatientRecords.sol": {
+      "lastModificationDate": 1735014816326,
+      "contentHash": "a3c2513b0029a4f6b72264c6f384ba02",
+      "sourceName": "contracts/PatientRecords.sol",
+      "solcConfig": {
+        "version": "0.8.0",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "PatientRecords"
+      ]
+    },
+    "C:\\Users\\akhil\\OneDrive\\Desktop\\today presentations\\health care monitoring\\backend\\contracts\\PatientRegistration.sol": {
+      "lastModificationDate": 1735014816337,
+      "contentHash": "435917e7f8a6dab6316dceb439a19c0d",
+      "sourceName": "contracts/PatientRegistration.sol",
+      "solcConfig": {
+        "version": "0.8.0",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "PatientRegistration"
+      ]
+    }
+  }
+}

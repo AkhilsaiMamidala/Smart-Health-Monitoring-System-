@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Registration</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.6.1/web3.min.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        input:focus, select:focus, button:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .message {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .success {
+            color: #4CAF50;
+        }
+        .error {
+            color: #F44336;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Patient Registration</h1>
+        <form id="newPatientForm">
+            <input type="text" id="newName" placeholder="Name" required><br>
+            <input type="text" id="newPhone" placeholder="Phone Number" required><br>
+            <input type="text" id="newAddress" placeholder="Address" required><br>
+            <select id="newGender" required>
+                <option value="">Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+            </select><br>
+            <button type="submit">Register Patient</button>
+        </form>
+
+        <!-- Go Back Button -->
+        <button onclick="goBack()" style="margin-top: 20px;">Go Back</button>
+
+        <div id="message" class="message"></div>
+    </div>
+
+    <script>
+        // Go Back function to navigate to the previous page
+        function goBack() {
+            window.history.back();
+        }
+
+        let accounts;
+        const contractAddress = "0x8d587CbAe9F0D43a5F0947289e3732bd5AB4aAe4";  // Replace with your contract address
+        const abi = [
+            {
+                "inputs": [
+                    { "internalType": "string", "name": "_uniqueId", "type": "string" },
+                    { "internalType": "string", "name": "_name", "type": "string" },
+                    { "internalType": "uint256", "name": "_age", "type": "uint256" },
+                    { "internalType": "string", "name": "_gender", "type": "string" },
+                    { "internalType": "string", "name": "_phone", "type": "string" },
+                    { "internalType": "string", "name": "_address", "type": "string" }
+                ],
+                "name": "addPatient",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "PatientRegistered",
+                "outputs": [
+                    { "internalType": "string", "name": "uniqueId", "type": "string" },
+                    { "internalType": "string", "name": "name", "type": "string" },
+                    { "internalType": "uint256", "name": "age", "type": "uint256" },
+                    { "internalType": "string", "name": "gender", "type": "string" },
+                    { "internalType": "string", "name": "phone", "type": "string" },
+                    { "internalType": "string", "name": "address", "type": "string" }
+                ],
+                "name": "PatientRegistered",
+                "type": "event"
+            }
+        ];
+
+        const web3 = new Web3(window.ethereum);
+        const contract = new web3.eth.Contract(abi, contractAddress);
+
+        window.ethereum.request({ method: "eth_requestAccounts" })
+            .then((acc) => {
+                accounts = acc;
+                console.log("Connected MetaMask Accounts:", accounts);
+            })
+            .catch((err) => {
+                console.error("MetaMask Connection Error:", err.message);
+                alert("Failed to connect to MetaMask. Please try again.");
+            });
+
+        const newPatientForm = document.getElementById("newPatientForm");
+
+        if (newPatientForm) {
+            newPatientForm.addEventListener("submit", async (e) => {
+                e.preventDefault();
+
+                const name = document.getElementById("newName").value;
+                const phone = document.getElementById("newPhone").value;
+                const address = document.getElementById("newAddress").value;
+                const gender = document.getElementById("newGender").value;
+
+                if (!accounts) {
+                    alert("Please connect to MetaMask first.");
+                    return;
+                }
+
+                try {
+                    const uniqueId = generateUniqueId();
+                    const age = 30; // Replace with actual data
+                    const condition = "Healthy"; // Replace with actual condition
+
+                    // Register patient on the blockchain
+                    const transaction = await contract.methods.addPatient(
+                        uniqueId, name, age, gender, phone, address
+                    ).send({ from: accounts[0] });
+
+                    console.log("Transaction Successful. Hash:", transaction.transactionHash);
+
+                    // Generate a PDF for the patient
+                    generatePDF(name, phone, address, gender);
+
+                    // Save patient data to the backend
+                    const patientData = { 
+                        uniqueId, name, age, condition, gender, phone, address, transactionHash: transaction.transactionHash 
+                    };
+                    await savePatientToBackend(patientData);
+
+                    showMessage("Patient Registered Successfully!", "success");
+                } catch (error) {
+                    console.error("Error during registration:", error);
+                }
+            });
+        }
+
+        function generatePDF(name, phone, address, gender) {
+            const { jsPDF } = window.jspdf; // Access jsPDF from the window object
+            const doc = new jsPDF();
+            doc.text(`Patient Name: ${name}`, 10, 10);
+            doc.text(`Phone Number: ${phone}`, 10, 20);
+            doc.text(`Address: ${address}`, 10, 30);
+            doc.text(`Gender: ${gender}`, 10, 40);
+            doc.text(`Unique ID: ${generateUniqueId()}`, 10, 50); // Generate a real unique ID here
+
+            // Save the PDF
+            doc.save('patient_registration.pdf');
+        }
+
+        function generateUniqueId() {
+            return 'ID' + Math.floor(Math.random() * 1000000);
+        }
+
+        async function savePatientToBackend(patientData) {
+            const response = await fetch('/addPatient', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(patientData),
+            });
+
+            const data = await response.json();
+            console.log('Patient added to backend:', data);
+        }
+
+        function showMessage(message, type) {
+            const messageDiv = document.getElementById("message");
+            messageDiv.textContent = message;
+            messageDiv.className = 'message ' + (type === "success" ? 'success' : 'error');
+        }
+    </script>
+</body>
+</html>

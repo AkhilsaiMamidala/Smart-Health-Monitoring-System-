@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration History</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7f6;
+            padding: 20px;
+        }
+        h1 {
+            color: #4CAF50;
+            text-align: center;
+        }
+        #searchContainer {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #searchInput {
+            width: 300px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .patient-item {
+            background-color: #fff;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .patient-item p {
+            margin: 5px 0;
+        }
+        .back-button {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 10px;
+            text-align: center;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .back-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Registration History</h1>
+    <div id="searchContainer">
+        <input type="text" id="searchInput" placeholder="Search by Unique ID or Phone Number" oninput="searchHistory()">
+    </div>
+
+    <div id="historyList"></div>
+
+    <button class="back-button" onclick="window.location.href='/'">Go Back</button>
+
+    <script>
+        let patients = [];
+
+        // Fetch patient history from the server
+        async function fetchHistory() {
+            const response = await fetch('/getPatientHistory');
+            patients = await response.json();
+            displayHistory(patients);
+        }
+
+        // Display the patient history
+        function displayHistory(patientData) {
+            const historyList = document.getElementById("historyList");
+            historyList.innerHTML = ""; // Clear any existing content
+
+            patientData.forEach(patient => {
+                const patientDiv = document.createElement("div");
+                patientDiv.classList.add("patient-item");
+                patientDiv.innerHTML = `
+                    <p><strong>Unique ID:</strong> ${patient.uniqueId}</p>
+                    <p><strong>Name:</strong> ${patient.name}</p>
+                    <p><strong>Phone Number:</strong> ${patient.phoneNumber}</p>
+                    <p><strong>Condition:</strong> ${patient.condition}</p>
+                    <p><strong>Age:</strong> ${patient.age}</p>
+                    <p><strong>Gender:</strong> ${patient.gender}</p>
+                    <p><strong>Transaction Hash:</strong> ${patient.transactionHash}</p>
+                `;
+                historyList.appendChild(patientDiv);
+            });
+        }
+
+        // Search history based on input
+        function searchHistory() {
+            const searchInput = document.getElementById("searchInput").value.toLowerCase();
+            const filteredPatients = patients.filter(patient => {
+                return patient.uniqueId.toLowerCase().includes(searchInput) ||
+                    patient.phoneNumber.toLowerCase().includes(searchInput);
+            });
+            displayHistory(filteredPatients);
+        }
+
+        // Fetch patient data when the page loads
+        window.onload = fetchHistory;
+    </script>
+</body>
+</html>
